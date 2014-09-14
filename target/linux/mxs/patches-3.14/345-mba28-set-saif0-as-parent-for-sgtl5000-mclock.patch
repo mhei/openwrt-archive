@@ -1,0 +1,25 @@
+From 842ad869b83ae71402fae560dfa5ae005a033cc6 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+Date: Thu, 26 Jun 2014 11:27:45 +0200
+Subject: [PATCH] mba28: set saif0 as parent for sgtl5000 mclock
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+---
+ arch/arm/boot/dts/imx28-mba28.dts |    1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index 7b63b89..cb8005b 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -204,6 +204,7 @@
+ 				sgtl5000: codec@0a {
+ 					compatible = "fsl,sgtl5000";
+ 					reg = <0x0a>;
++					clocks = <&saif0>;
+ 					VDDA-supply = <&reg_3p3v>;
+ 					VDDIO-supply = <&reg_3p3v>;
+ 					VDDD-supply = <&reg_3p3v>;
+-- 
+1.7.10.4
+

@@ -1,0 +1,41 @@
+From 57177a18be004ce0e055dcc8217f114304efba40 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:42:06 +0200
+Subject: [PATCH] tqma28x: enable over-current detection logic
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/mach-mxs/mach-mxs.c |   15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/arch/arm/mach-mxs/mach-mxs.c b/arch/arm/mach-mxs/mach-mxs.c
+index deeec38..dae56c0 100644
+--- a/arch/arm/mach-mxs/mach-mxs.c
++++ b/arch/arm/mach-mxs/mach-mxs.c
+@@ -337,8 +337,23 @@ static void __init m28cu3_init(void)
+ 
+ static void __init tqma28_init(void)
+ {
++	unsigned long oc;
++	struct device_node *np;
++	void __iomem *addr;
++
+ 	enable_clk_enet_out();
+ 	/* TODO: update_fec_mac_prop(OUI_TQS); */
++
++	/*
++	 * enable usb overcurrent detection logic in MX28 HW_DIGCTL_CTRL_SET
++	 * and set overcurrent polarity to low active
++	 */
++	np = of_find_compatible_node(NULL, NULL, "fsl,imx28-digctl");
++	addr = of_iomap(np, 0);
++	WARN_ON(!addr);
++
++	oc = (0xF << 21);
++	__mxs_setl(oc, addr);
+ }
+ 
+ static const char __init *mxs_get_soc_id(void)
+-- 
+1.7.10.4
+

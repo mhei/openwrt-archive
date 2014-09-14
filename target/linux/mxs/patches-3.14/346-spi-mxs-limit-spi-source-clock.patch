@@ -1,0 +1,51 @@
+From b9ee1e94df20f5714ec7158b8b40a155e52f1a85 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+Date: Tue, 1 Jul 2014 10:49:07 +0200
+Subject: [PATCH] spi-mxs: limit spi source clock
+
+A bug in SSP core leads to BIT(0) of spi messages
+being read equal to BIT(1) when HW_CLKCTRL_SSPx.DIV = 1
+
+To avoid that divider setting the ssp clock is
+limited to the highest freq with DIV != 1,
+i.e. 240 MHz.
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+---
+ drivers/spi/spi-mxs.c |   13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/drivers/spi/spi-mxs.c b/drivers/spi/spi-mxs.c
+index 79e5aa2..e7f7f0f 100644
+--- a/drivers/spi/spi-mxs.c
++++ b/drivers/spi/spi-mxs.c
+@@ -470,6 +470,13 @@ static int mxs_spi_probe(struct platform_device *pdev)
+ 	 */
+ 	const int clk_freq_default = 160000000;
+ 
++	/*
++	 * Transfers with ref_ioX (tested on ssp2 ref_io1) as source
++	 * and SSPx.DIV = 1 report bit 0 identical to bit 1.
++	 * As we need DIV > 1, set an upper limit to parent clock.
++	 */
++	const int clk_ssp_parent_max = 240000000;
++
+ 	iores = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	irq_err = platform_get_irq(pdev, 0);
+ 	if (irq_err < 0)
+@@ -525,6 +532,12 @@ static int mxs_spi_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto out_dma_release;
+ 
++	/* TODO: only apply limit when ref_ioX is the parent clock */
++	if (clk_freq > clk_ssp_parent_max) {
++		dev_warn(ssp->dev, "limiting ssp clock to 240 MHz\n");
++		clk_freq = clk_ssp_parent_max;
++	}
++
+ 	clk_set_rate(ssp->clk, clk_freq);
+ 
+ 	ret = stmp_reset_block(ssp->base);
+-- 
+1.7.10.4
+

@@ -1,0 +1,71 @@
+From 07db8f26f02a149f8ae289e56ce655e87b4db035 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:41:57 +0200
+Subject: [PATCH] ARM: TQMa28x: dt: Have model descriptor only on baseboard
+ tree
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-mba28.dts    |    2 +-
+ arch/arm/boot/dts/imx28-mba28l.dts   |    2 +-
+ arch/arm/boot/dts/imx28-tqma28.dtsi  |    3 ---
+ arch/arm/boot/dts/imx28-tqma28l.dtsi |    3 ---
+ 4 files changed, 2 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index a74f155..cc98385 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -14,7 +14,7 @@
+ /include/ "imx28-tqma28.dtsi"
+ 
+ / {
+-	model = "TQ Systems MBa28";
++	model = "TQ Systems TQMa28 on MBa28";
+ 	compatible = "tqs, mba28", "tqs,tqma28", "fsl,imx28";
+ 
+ 	apb@80000000 {
+diff --git a/arch/arm/boot/dts/imx28-mba28l.dts b/arch/arm/boot/dts/imx28-mba28l.dts
+index eda1a53..377a77d 100644
+--- a/arch/arm/boot/dts/imx28-mba28l.dts
++++ b/arch/arm/boot/dts/imx28-mba28l.dts
+@@ -14,7 +14,7 @@
+ /include/ "imx28-tqma28l.dtsi"
+ 
+ / {
+-	model = "TQ Systems MBa28L";
++	model = "TQ Systems TQMa28L on MBa28";
+ 	compatible = "tqs, mba28", "tqs,tqma28l", "tqs,tqma28", "fsl,imx28";
+ 
+ 	apb@80000000 {
+diff --git a/arch/arm/boot/dts/imx28-tqma28.dtsi b/arch/arm/boot/dts/imx28-tqma28.dtsi
+index 7b25746..324c58a 100644
+--- a/arch/arm/boot/dts/imx28-tqma28.dtsi
++++ b/arch/arm/boot/dts/imx28-tqma28.dtsi
+@@ -12,9 +12,6 @@
+ /include/ "imx28.dtsi"
+ 
+ / {
+-	model = "TQ Systems TQMa28";
+-	compatible = "tqs,tqma28", "fsl,imx28";
+-
+ 	memory {
+ 		reg = <0x40000000 0x08000000>;
+ 	};
+diff --git a/arch/arm/boot/dts/imx28-tqma28l.dtsi b/arch/arm/boot/dts/imx28-tqma28l.dtsi
+index dd7ce12..9255e62 100644
+--- a/arch/arm/boot/dts/imx28-tqma28l.dtsi
++++ b/arch/arm/boot/dts/imx28-tqma28l.dtsi
+@@ -12,9 +12,6 @@
+ /include/ "imx28.dtsi"
+ 
+ / {
+-	model = "TQ Systems TQMa28L";
+-	compatible = "tqs,tqma28l", "fsl,imx28";
+-
+ 	memory {
+ 		reg = <0x40000000 0x08000000>;
+ 	};
+-- 
+1.7.10.4
+

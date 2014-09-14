@@ -1,0 +1,92 @@
+From 0efc6c93727fcb9f0f9dc1288cf68e123ba0c063 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:42:12 +0200
+Subject: [PATCH] tqma28x: dt: add display timings
+
+First timing is for standard display.
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-mba28.dts     |   26 +++++++++++++++++++++++++-
+ arch/arm/boot/dts/imx28-mba28l-ab.dts |   26 +++++++++++++++++++++++++-
+ 2 files changed, 50 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index 758b9589..aaaf666 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -126,8 +126,32 @@
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&lcdif_24bit_pins_a
+ 						&lcdif_pins_mba28>;
+-				panel-enable-gpios = <&gpio3 30 0>;
++				display = <&display>;
+ 				status = "okay";
++
++				display: display {
++					bits-per-pixel = <16>;
++					bus-width = <18>;
++
++					display-timings {
++						native-mode = <&ET0700G0DH6>;
++						ET0700G0DH6: timing0 {
++							clock-frequency = <33260000>;
++							hactive = <800>;
++							vactive = <480>;
++							hback-porch = <0>;
++							hfront-porch = <256>;
++							vback-porch = <0>;
++							vfront-porch = <45>;
++							hsync-len = <1>;
++							vsync-len = <1>;
++							hsync-active = <0>;
++							vsync-active = <0>;
++							de-active = <1>;
++							pixelclk-active = <1>;
++						};
++					};
++				};
+ 			};
+ 
+ 			can0: can@80032000 {
+diff --git a/arch/arm/boot/dts/imx28-mba28l-ab.dts b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+index bd7173a..50c1717 100644
+--- a/arch/arm/boot/dts/imx28-mba28l-ab.dts
++++ b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+@@ -109,8 +109,32 @@
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&lcdif_24bit_pins_a
+ 						&lcdif_pins_mba28l>;
+-				panel-enable-gpios = <&gpio3 30 0>;
++				display = <&display>;
+ 				status = "okay";
++
++				display: display {
++					bits-per-pixel = <16>;
++					bus-width = <18>;
++
++					display-timings {
++						native-mode = <&ET0700G0DH6>;
++						ET0700G0DH6: timing0 {
++							clock-frequency = <33260000>;
++							hactive = <800>;
++							vactive = <480>;
++							hback-porch = <0>;
++							hfront-porch = <256>;
++							vback-porch = <0>;
++							vfront-porch = <45>;
++							hsync-len = <1>;
++							vsync-len = <1>;
++							hsync-active = <0>;
++							vsync-active = <0>;
++							de-active = <1>;
++							pixelclk-active = <1>;
++						};
++					};
++				};
+ 			};
+ 		};
+ 
+-- 
+1.7.10.4
+

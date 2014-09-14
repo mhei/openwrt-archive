@@ -1,0 +1,116 @@
+From c95ef82e27c0c8309b1d10f0024e5c6c396491d5 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:41:55 +0200
+Subject: [PATCH] ARM: tqma28: dt: remove mx28evk gpios from mba28
+
+Although removed already in tqma28 dt, some unneeded gpios
+returned when mba28/tqma28 device trees were split.
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-mba28.dts   |   39 -----------------------------------
+ arch/arm/boot/dts/imx28-tqma28.dtsi |    1 -
+ 2 files changed, 40 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index 09b3c71..93ce3a8 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -38,13 +38,8 @@
+ 				hog_pins_a: hog-gpios@0 {
+ 					reg = <0>;
+ 					fsl,pinmux-ids = <
+-						0x20d3 /* MX28_PAD_SSP1_CMD__GPIO_2_13 */
+-						0x20f3 /* MX28_PAD_SSP1_DATA3__GPIO_2_15 */
+ 						0x40d3 /* MX28_PAD_ENET0_RX_CLK__GPIO_4_13 */
+-						0x20c3 /* MX28_PAD_SSP1_SCK__GPIO_2_12 */
+-						0x31c3 /* MX28_PAD_PWM3__GPIO_3_28 */
+ 						0x31e3 /* MX28_PAD_LCD_RESET__GPIO_3_30 */
+-						0x3053 /* MX28_PAD_AUART1_TX__GPIO_3_5 */
+ 						0x3083 /* MX28_PAD_AUART2_RX__GPIO_3_8 */
+ 						0x3093 /* MX28_PAD_AUART2_TX__GPIO_3_9 */
+ 					>;
+@@ -53,17 +48,6 @@
+ 					fsl,pull-up = <0>;
+ 				};
+ 
+-				gpmi_pins_evk: gpmi-nand-evk@0 {
+-					reg = <0>;
+-					fsl,pinmux-ids = <
+-						0x0110 /* MX28_PAD_GPMI_CE1N__GPMI_CE1N */
+-						0x0150 /* MX28_PAD_GPMI_RDY1__GPMI_READY1 */
+-					>;
+-					fsl,drive-strength = <0>;
+-					fsl,voltage = <1>;
+-					fsl,pull-up = <0>;
+-				};
+-
+ 				i2c1_pins_b: i2c1@1 {
+ 					reg = <1>;
+ 					fsl,pinmux-ids = <
+@@ -75,19 +59,6 @@
+ 					fsl,pull-up = <1>;
+ 				};
+ 
+-				lcdif_pins_evk: lcdif-evk@0 {
+-					reg = <0>;
+-					fsl,pinmux-ids = <
+-						0x1181 /* MX28_PAD_LCD_RD_E__LCD_VSYNC */
+-						0x1191 /* MX28_PAD_LCD_WR_RWN__LCD_HSYNC */
+-						0x11a1 /* MX28_PAD_LCD_RS__LCD_DOTCLK */
+-						0x11b1 /* MX28_PAD_LCD_CS__LCD_ENABLE */
+-					>;
+-					fsl,drive-strength = <0>;
+-					fsl,voltage = <1>;
+-					fsl,pull-up = <0>;
+-				};
+-
+ 				lcdif_pins_mba28: lcdif-evk@0 {
+ 					reg = <0>;
+ 					fsl,pinmux-ids = <
+@@ -241,7 +212,6 @@
+ 			phy-mode = "rmii";
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&mac0_pins_a>;
+-			phy-supply = <&reg_fec_3v3>;
+ 			phy-reset-gpios = <&gpio4 13 0>;
+ 			phy-reset-duration = <100>;
+ 			status = "okay";
+@@ -251,7 +221,6 @@
+ 			phy-mode = "rmii";
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&mac1_pins_a>;
+-			phy-supply = <&reg_fec_3v3>;
+ 			phy-reset-gpios = <&gpio4 13 0>;
+ 			phy-reset-duration = <100>;
+ 			status = "okay";
+@@ -261,14 +230,6 @@
+ 	regulators {
+ 		compatible = "simple-bus";
+ 
+-		reg_fec_3v3: fec-3v3 {
+-			compatible = "regulator-fixed";
+-			regulator-name = "fec-3v3";
+-			regulator-min-microvolt = <3300000>;
+-			regulator-max-microvolt = <3300000>;
+-			gpio = <&gpio2 15 0>;
+-		};
+-
+ 		reg_usb0_vbus: usb0_vbus {
+ 			compatible = "regulator-fixed";
+ 			regulator-name = "usb0_vbus";
+diff --git a/arch/arm/boot/dts/imx28-tqma28.dtsi b/arch/arm/boot/dts/imx28-tqma28.dtsi
+index 4ac6eab..7b25746 100644
+--- a/arch/arm/boot/dts/imx28-tqma28.dtsi
++++ b/arch/arm/boot/dts/imx28-tqma28.dtsi
+@@ -69,7 +69,6 @@
+ 			regulator-name = "vddio-sd0";
+ 			regulator-min-microvolt = <3300000>;
+ 			regulator-max-microvolt = <3300000>;
+-			gpio = <&gpio3 28 0>;
+ 		};
+ 	};
+ };
+-- 
+1.7.10.4
+

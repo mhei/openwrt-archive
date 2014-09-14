@@ -1,0 +1,25 @@
+From d485bb0597153c7fe4ea087529439d9faa0a0aea Mon Sep 17 00:00:00 2001
+From: Markus Niebel <Markus.Niebel@tqs.de>
+Date: Wed, 28 May 2014 14:41:47 +0200
+Subject: [PATCH] ARM: mxs: tqma28 - remove mx28evk from compatible list
+
+---
+ arch/arm/boot/dts/imx28-tqma28.dts |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/imx28-tqma28.dts b/arch/arm/boot/dts/imx28-tqma28.dts
+index 1a19875..9019938 100644
+--- a/arch/arm/boot/dts/imx28-tqma28.dts
++++ b/arch/arm/boot/dts/imx28-tqma28.dts
+@@ -14,7 +14,7 @@
+ 
+ / {
+ 	model = "TQ Systems TQMa28";
+-	compatible = "tqs,tqma28", "fsl,imx28-evk", "fsl,imx28";
++	compatible = "tqs,tqma28", "fsl,imx28";
+ 
+ 	memory {
+ 		reg = <0x40000000 0x08000000>;
+-- 
+1.7.10.4
+

@@ -1,0 +1,64 @@
+From 6990a2d818cc957fa1e2921ad8dff53ca708f15a Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:41:56 +0200
+Subject: [PATCH] ARM: mba28x: add i2c gpio extender
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-mba28.dts  |   14 ++++++++++++++
+ arch/arm/boot/dts/imx28-mba28l.dts |   14 ++++++++++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index 93ce3a8..a74f155 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -152,6 +152,20 @@
+ 					VDDD-supply = <&reg_3p3v>;
+ 				};
+ 
++				gpioext0: pca9554@20 {
++					compatible = "pca9554";
++					reg = <0x20>;
++					#gpio-cells = <2>;
++					gpio-controller;
++				};
++
++				gpioext1: pca9554@21 {
++					compatible = "pca9554";
++					reg = <0x21>;
++					#gpio-cells = <2>;
++					gpio-controller;
++				};
++
+ 				lm73@4a {
+ 					compatible = "national,lm73";
+ 					reg = <0x4a>;
+diff --git a/arch/arm/boot/dts/imx28-mba28l.dts b/arch/arm/boot/dts/imx28-mba28l.dts
+index 7fe56a3..eda1a53 100644
+--- a/arch/arm/boot/dts/imx28-mba28l.dts
++++ b/arch/arm/boot/dts/imx28-mba28l.dts
+@@ -128,6 +128,20 @@
+ 					VDDD-supply = <&reg_3p3v>;
+ 				};
+ 
++				gpioext0: pca9554@20 {
++					compatible = "pca9554";
++					reg = <0x20>;
++					#gpio-cells = <2>;
++					gpio-controller;
++				};
++
++				gpioext1: pca9554@21 {
++					compatible = "pca9554";
++					reg = <0x21>;
++					#gpio-cells = <2>;
++					gpio-controller;
++				};
++
+ 				lm73@4a {
+ 					compatible = "national,lm73";
+ 					reg = <0x4a>;
+-- 
+1.7.10.4
+

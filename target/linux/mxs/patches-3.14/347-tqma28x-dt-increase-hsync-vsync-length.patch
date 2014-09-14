@@ -1,0 +1,44 @@
+From b7ebaf385740e4b29ca9cb209c1c6af2ef9e07fb Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+Date: Tue, 1 Jul 2014 16:52:24 +0200
+Subject: [PATCH] tqma28x: dt: increase hsync vsync length
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+---
+ arch/arm/boot/dts/imx28-mba28.dts     |    4 ++--
+ arch/arm/boot/dts/imx28-mba28l-ab.dts |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index cb8005b..2f45b28 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -153,8 +153,8 @@
+ 							hfront-porch = <256>;
+ 							vback-porch = <0>;
+ 							vfront-porch = <45>;
+-							hsync-len = <1>;
+-							vsync-len = <1>;
++							hsync-len = <10>;
++							vsync-len = <10>;
+ 							hsync-active = <0>;
+ 							vsync-active = <0>;
+ 							de-active = <1>;
+diff --git a/arch/arm/boot/dts/imx28-mba28l-ab.dts b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+index a48dfdf..6bdae5a 100644
+--- a/arch/arm/boot/dts/imx28-mba28l-ab.dts
++++ b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+@@ -125,8 +125,8 @@
+ 							hfront-porch = <256>;
+ 							vback-porch = <0>;
+ 							vfront-porch = <45>;
+-							hsync-len = <1>;
+-							vsync-len = <1>;
++							hsync-len = <10>;
++							vsync-len = <10>;
+ 							hsync-active = <0>;
+ 							vsync-active = <0>;
+ 							de-active = <1>;
+-- 
+1.7.10.4
+

@@ -1,0 +1,101 @@
+From 63107b0ec086fc4f7adc0f29302c42f26879349f Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:42:10 +0200
+Subject: [PATCH] tqma28x: adapt pin setup to qualification results
+
+drive e-mmc cmd and sclk with 8 mA
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-tqma28.dtsi  |   28 ++++++++++++++++++++++++++--
+ arch/arm/boot/dts/imx28-tqma28l.dtsi |   11 ++++++++++-
+ 2 files changed, 36 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx28-tqma28.dtsi b/arch/arm/boot/dts/imx28-tqma28.dtsi
+index 30b82f5..200a4ba 100644
+--- a/arch/arm/boot/dts/imx28-tqma28.dtsi
++++ b/arch/arm/boot/dts/imx28-tqma28.dtsi
+@@ -21,7 +21,8 @@
+ 			ssp0: ssp@80010000 {
+ 				compatible = "fsl,imx28-mmc";
+ 				pinctrl-names = "default";
+-				pinctrl-0 = <&mmc0_8bit_pins_a
++				pinctrl-0 = <&mmc0_8bit_pins_b
++						&mmc0_cmd_cfg
+ 						&mmc0_sck_cfg>;
+ 				bus-width = <8>;
+ 				non-removable;
+@@ -30,11 +31,34 @@
+ 			};
+ 
+ 			pinctrl@80018000 {
+-				mmc0_8bit_pins_a: mmc0-8bit@0 {
++				mmc0_8bit_pins_b: mmc0-8bit@0 {
++					reg = <0>;
++					fsl,pinmux-ids = <
++						0x2000 /* MX28_PAD_SSP0_DATA0__SSP0_D0 */
++						0x2010 /* MX28_PAD_SSP0_DATA1__SSP0_D1 */
++						0x2020 /* MX28_PAD_SSP0_DATA2__SSP0_D2 */
++						0x2030 /* MX28_PAD_SSP0_DATA3__SSP0_D3 */
++						0x2040 /* MX28_PAD_SSP0_DATA4__SSP0_D4 */
++						0x2050 /* MX28_PAD_SSP0_DATA5__SSP0_D5 */
++						0x2060 /* MX28_PAD_SSP0_DATA6__SSP0_D6 */
++						0x2070 /* MX28_PAD_SSP0_DATA7__SSP0_D7 */
++					>;
+ 					fsl,drive-strength = <0>;
++					fsl,voltage = <1>;
++					fsl,pull-up = <1>;
++				};
++
++				mmc0_cmd_cfg: mmc0-cmd-cfg {
++					fsl,pinmux-ids = <
++						0x2080 /* MX28_PAD_SSP0_CMD__SSP0_CMD */
++					>;
++					fsl,drive-strength = <1>;
++					fsl,voltage = <1>;
++					fsl,pull-up = <1>;
+ 				};
+ 
+ 				mmc0_sck_cfg: mmc0-sck-cfg {
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 				};
+ 			};
+diff --git a/arch/arm/boot/dts/imx28-tqma28l.dtsi b/arch/arm/boot/dts/imx28-tqma28l.dtsi
+index 601ad7e..4e2f7a0 100644
+--- a/arch/arm/boot/dts/imx28-tqma28l.dtsi
++++ b/arch/arm/boot/dts/imx28-tqma28l.dtsi
+@@ -23,6 +23,7 @@
+ 				compatible = "fsl,imx28-mmc";
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&mmc1_8bit_pins_a
++						&mmc1_cmd_cfg
+ 						&mmc1_sck_cfg>;
+ 				bus-width = <8>;
+ 				non-removable;
+@@ -42,13 +43,21 @@
+ 						0x0051 /* MX28_PAD_GPMI_D05__SSP1_D5 */
+ 						0x0061 /* MX28_PAD_GPMI_D06__SSP1_D6 */
+ 						0x0071 /* MX28_PAD_GPMI_D07__SSP1_D7 */
+-						0x0151 /* MX28_PAD_GPMI_RDY1__SSP1_CMD */
+ 					>;
+ 					fsl,drive-strength = <0>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <1>;
+ 				};
+ 
++				mmc1_cmd_cfg: mmc1-cmd-cfg {
++					fsl,pinmux-ids = <
++						0x0151 /* MX28_PAD_GPMI_RDY1__SSP1_CMD */
++					>;
++					fsl,drive-strength = <1>;
++					fsl,voltage = <1>;
++					fsl,pull-up = <1>;
++				};
++
+ 				mmc1_sck_cfg: mmc1-sck-cfg {
+ 					fsl,voltage = <1>;
+ 				};
+-- 
+1.7.10.4
+

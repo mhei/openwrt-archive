@@ -1,0 +1,31 @@
+From faf85a59ec92414a7e4344314850e96f242efb96 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:41:48 +0200
+Subject: [PATCH] ARM - tqma28: use separate emmc cd and sck pin nodes
+
+Both these pins have separate nodes in imx28.dtsi.
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+---
+ arch/arm/boot/dts/imx28-tqma28.dts |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/imx28-tqma28.dts b/arch/arm/boot/dts/imx28-tqma28.dts
+index 5f9e179..ca8780e 100644
+--- a/arch/arm/boot/dts/imx28-tqma28.dts
++++ b/arch/arm/boot/dts/imx28-tqma28.dts
+@@ -32,7 +32,9 @@
+ 			ssp0: ssp@80010000 {
+ 				compatible = "fsl,imx28-mmc";
+ 				pinctrl-names = "default";
+-				pinctrl-0 = <&mmc0_8bit_pins_a>;
++				pinctrl-0 = <&mmc0_8bit_pins_a
++						&mmc0_cd_cfg
++						&mmc0_sck_cfg>;
+ 				bus-width = <8>;
+ 				non-removable;
+ 				vmmc-supply = <&reg_vddio_sd0>;
+-- 
+1.7.10.4
+

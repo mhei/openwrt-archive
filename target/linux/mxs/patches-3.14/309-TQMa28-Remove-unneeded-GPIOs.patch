@@ -1,0 +1,34 @@
+From cd009586f6593970a8d957294699ac2dff42120c Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:41:52 +0200
+Subject: [PATCH] TQMa28: Remove unneeded GPIOs
+
+Some GPIOs are remnants from mx28evk code heritage.
+Remove those not needed on TQMa28 and/or MBa28.
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-tqma28.dts |    5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx28-tqma28.dts b/arch/arm/boot/dts/imx28-tqma28.dts
+index 8bbf1aa..8c719c8 100644
+--- a/arch/arm/boot/dts/imx28-tqma28.dts
++++ b/arch/arm/boot/dts/imx28-tqma28.dts
+@@ -58,13 +58,8 @@
+ 				hog_pins_a: hog-gpios@0 {
+ 					reg = <0>;
+ 					fsl,pinmux-ids = <
+-						0x20d3 /* MX28_PAD_SSP1_CMD__GPIO_2_13 */
+-						0x20f3 /* MX28_PAD_SSP1_DATA3__GPIO_2_15 */
+ 						0x40d3 /* MX28_PAD_ENET0_RX_CLK__GPIO_4_13 */
+-						0x20c3 /* MX28_PAD_SSP1_SCK__GPIO_2_12 */
+-						0x31c3 /* MX28_PAD_PWM3__GPIO_3_28 */
+ 						0x31e3 /* MX28_PAD_LCD_RESET__GPIO_3_30 */
+-						0x3053 /* MX28_PAD_AUART1_TX__GPIO_3_5 */
+ 						0x3083 /* MX28_PAD_AUART2_RX__GPIO_3_8 */
+ 						0x3093 /* MX28_PAD_AUART2_TX__GPIO_3_9 */
+ 					>;
+-- 
+1.7.10.4
+

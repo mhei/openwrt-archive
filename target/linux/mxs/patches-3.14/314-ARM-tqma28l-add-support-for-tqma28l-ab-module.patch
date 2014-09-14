@@ -1,0 +1,341 @@
+From 3fa3d54a4e45a871dfbb8f083c25579549a399da Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:41:55 +0200
+Subject: [PATCH] ARM: tqma28l: add support for tqma28l (ab) module
+
+The TQMa28L features in variant AB the i.MX283 cpu.
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-mba28l.dts   |  255 ++++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/imx28-tqma28l.dtsi |   56 ++++++++
+ 2 files changed, 311 insertions(+)
+ create mode 100644 arch/arm/boot/dts/imx28-mba28l.dts
+ create mode 100644 arch/arm/boot/dts/imx28-tqma28l.dtsi
+
+diff --git a/arch/arm/boot/dts/imx28-mba28l.dts b/arch/arm/boot/dts/imx28-mba28l.dts
+new file mode 100644
+index 0000000..616dff1
+--- /dev/null
++++ b/arch/arm/boot/dts/imx28-mba28l.dts
+@@ -0,0 +1,255 @@
++/*
++ * Copyright 2012 Freescale Semiconductor, Inc.
++ *
++ * The code contained herein is licensed under the GNU General Public
++ * License. You may obtain a copy of the GNU General Public License
++ * Version 2 or later at the following locations:
++ *
++ * http://www.opensource.org/licenses/gpl-license.html
++ * http://www.gnu.org/copyleft/gpl.html
++ */
++
++/dts-v1/;
++/include/ "imx28.dtsi"
++/include/ "imx28-tqma28l.dtsi"
++
++/ {
++	model = "TQ Systems MBa28L";
++	compatible = "tqs, mba28", "tqs,tqma28l", "tqs,tqma28", "fsl,imx28";
++
++	apb@80000000 {
++		apbh@80000000 {
++			ssp0: ssp@80010000 {
++				compatible = "fsl,imx28-mmc";
++				pinctrl-names = "default";
++				pinctrl-0 = <&mmc0_4bit_pins_a
++						&mmc0_cd_cfg
++						&mmc0_sck_cfg>;
++				bus-width = <4>;
++				wp-gpios = <&gpio0 28 0>;
++				vmmc-supply = <&reg_vddio_sd0>;
++				status = "okay";
++			};
++
++			pinctrl@80018000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&hog_pins_a>;
++
++				hog_pins_a: hog-gpios@0 {
++					reg = <0>;
++					fsl,pinmux-ids = <
++						0x0103 /* MX28_PAD_GPMI_CE0N__GPIO_0_16 */
++						0x0143 /* MX28_PAD_GPMI_RDY0__GPIO_0_20 */
++						0x2043 /* MX28_PAD_SSP0_DATA4__GPIO_2_4 */
++						0x3123 /* MX28_PAD_PWM2__GPIO_3_18 */
++					>;
++					fsl,drive-strength = <0>;
++					fsl,voltage = <1>;
++					fsl,pull-up = <0>;
++				};
++
++				auart0_pins_b: auart0@0 {
++					reg = <0>;
++					fsl,pinmux-ids = <
++						0x3000 /* MX28_PAD_AUART0_RX__AUART0_RX */
++						0x3010 /* MX28_PAD_AUART0_TX__AUART0_TX */
++						0x3030 /* MX28_PAD_AUART0_RTS__AUART0_RTS */
++					>;
++					fsl,drive-strength = <0>;
++					fsl,voltage = <1>;
++					fsl,pull-up = <0>;
++				};
++
++				lcdif_pins_mba28l: lcdif-evk@0 {
++					reg = <0>;
++					fsl,pinmux-ids = <
++						0x1181 /* MX28_PAD_LCD_RD_E__LCD_VSYNC*/
++						0x1191 /* MX28_PAD_LCD_WR_RWN__LCD_HSYNC */
++						0x11a1 /* MX28_PAD_LCD_RS__LCD_DOTCLK*/
++						0x11b1 /* MX28_PAD_LCD_CS__LCD_ENABLE */
++						0x31e0 /* MX28_PAD_LCD_RESET__LCD_RESET - must be gpio? */
++					>;
++					fsl,drive-strength = <0>;
++					fsl,voltage = <1>;
++					fsl,pull-up = <0>;
++				};
++
++				mmc1_8bit_pins_a: mmc1-8bit@0 {
++					reg = <0>;
++					fsl,pinmux-ids = <
++						0x0001 /* MX28_PAD_GPMI_D00__SSP1_D0 */
++						0x0011 /* MX28_PAD_GPMI_D01__SSP1_D1 */
++						0x0021 /* MX28_PAD_GPMI_D02__SSP1_D2 */
++						0x0031 /* MX28_PAD_GPMI_D03__SSP1_D3 */
++						0x0041 /* MX28_PAD_GPMI_D04__SSP1_D4 */
++						0x0051 /* MX28_PAD_GPMI_D05__SSP1_D5 */
++						0x0061 /* MX28_PAD_GPMI_D06__SSP1_D6 */
++						0x0071 /* MX28_PAD_GPMI_D07__SSP1_D7 */
++						0x0151 /* MX28_PAD_GPMI_RDY1__SSP1_CMD */
++					>;
++					fsl,drive-strength = <1>;
++					fsl,voltage = <1>;
++					fsl,pull-up = <1>;
++				};
++			};
++
++			lcdif@80030000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&lcdif_24bit_pins_a
++						&lcdif_pins_mba28l>;
++				panel-enable-gpios = <&gpio3 30 0>;
++				status = "okay";
++			};
++		};
++
++		apbx@80040000 {
++			saif0: saif@80042000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&saif0_pins_a>;
++				status = "okay";
++			};
++
++			saif1: saif@80046000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&saif1_pins_a>;
++				fsl,saif-master = <&saif0>;
++				status = "okay";
++			};
++
++			i2c0: i2c@80058000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&i2c0_pins_a>;
++				status = "okay";
++
++				sgtl5000: codec@0a {
++					compatible = "fsl,sgtl5000";
++					reg = <0x0a>;
++					VDDA-supply = <&reg_3p3v>;
++					VDDIO-supply = <&reg_3p3v>;
++					VDDD-supply = <&reg_3p3v>;
++				};
++
++				lm73@4a {
++					compatible = "national,lm73";
++					reg = <0x4a>;
++				};
++			};
++
++			pwm: pwm@80064000 {
++				compatible = "fsl,imx28-pwm", "fsl,mxs-pwm", "fsl,imx23-pwm";
++				pinctrl-names = "default";
++				pinctrl-0 = <&pwm4_pins_a>;
++				status = "okay";
++			};
++
++			duart: serial@80074000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&duart_pins_a>;
++				status = "okay";
++			};
++
++			auart0: serial@8006a000 {
++				pinctrl-names = "default";
++				pinctrl-0 = <&auart0_pins_b>;
++				status = "okay";
++			};
++
++			auart1: serial@8006c000 {		/* AUART3 port */
++				pinctrl-names = "default";
++				pinctrl-0 = <&auart1_2pins_a>;
++				status = "okay";
++			};
++
++			usbphy0: usbphy@8007c000 {
++				status = "okay";
++			};
++
++			usbphy1: usbphy@8007e000 {
++				status = "okay";
++			};
++		};
++	};
++
++	ahb@80080000 {
++		usb0: usb@80080000 {
++			vbus-supply = <&reg_usb0_vbus>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&usbphy0_pins_a>;
++			status = "okay";
++		};
++
++		usb1: usb@80090000 {
++			vbus-supply = <&reg_usb1_vbus>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&usbphy1_pins_a>;
++			status = "okay";
++		};
++
++		mac0: ethernet@800f0000 {
++			phy-mode = "rmii";
++			pinctrl-names = "default";
++			pinctrl-0 = <&mac0_pins_a>;
++			phy-reset-gpios = <&gpio4 13 0>;
++			phy-reset-duration = <100>;
++			status = "okay";
++		};
++
++		mac1: ethernet@800f4000 {
++			phy-mode = "rmii";
++			pinctrl-names = "default";
++			pinctrl-0 = <&mac1_pins_a>;
++			phy-reset-gpios = <&gpio4 13 0>;
++			phy-reset-duration = <100>;
++			status = "okay";
++		};
++	};
++
++	regulators {
++		compatible = "simple-bus";
++
++		reg_usb0_vbus: usb0_vbus {
++			compatible = "regulator-fixed";
++			regulator-name = "usb0_vbus";
++			regulator-min-microvolt = <5000000>;
++			regulator-max-microvolt = <5000000>;
++			gpio = <&gpio0 20 0>;
++			enable-active-high;
++		};
++
++		reg_usb1_vbus: usb1_vbus {
++			compatible = "regulator-fixed";
++			regulator-name = "usb1_vbus";
++			regulator-min-microvolt = <5000000>;
++			regulator-max-microvolt = <5000000>;
++			gpio = <&gpio2 4 0>;
++			enable-active-high;
++		};
++	};
++
++	sound {
++		compatible = "fsl,imx28-evk-sgtl5000",
++			     "fsl,mxs-audio-sgtl5000";
++		model = "imx28-evk-sgtl5000";
++		saif-controllers = <&saif0 &saif1>;
++		audio-codec = <&sgtl5000>;
++	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		user {
++			label = "Heartbeat";
++			gpios = <&gpio3 5 0>;
++			linux,default-trigger = "heartbeat";
++		};
++	};
++
++	backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm 4 5000000>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <6>;
++		pwm-names = "pwm-backlight";
++		power-supply = <&reg_3p3v>;
++	};
++};
+diff --git a/arch/arm/boot/dts/imx28-tqma28l.dtsi b/arch/arm/boot/dts/imx28-tqma28l.dtsi
+new file mode 100644
+index 0000000..dd7ce12
+--- /dev/null
++++ b/arch/arm/boot/dts/imx28-tqma28l.dtsi
+@@ -0,0 +1,56 @@
++/*
++ * Copyright 2012 Freescale Semiconductor, Inc.
++ *
++ * The code contained herein is licensed under the GNU General Public
++ * License. You may obtain a copy of the GNU General Public License
++ * Version 2 or later at the following locations:
++ *
++ * http://www.opensource.org/licenses/gpl-license.html
++ * http://www.gnu.org/copyleft/gpl.html
++ */
++
++/include/ "imx28.dtsi"
++
++/ {
++	model = "TQ Systems TQMa28L";
++	compatible = "tqs,tqma28l", "fsl,imx28";
++
++	memory {
++		reg = <0x40000000 0x08000000>;
++	};
++
++	apb@80000000 {
++		apbh@80000000 {
++			/* Attention: TQMa28L has e-MMC on SSP1 */
++			ssp1: ssp@80012000 {
++				compatible = "fsl,imx28-mmc";
++				pinctrl-names = "default";
++				pinctrl-0 = <&mmc1_8bit_pins_a
++						&mmc1_sck_cfg>;
++				bus-width = <8>;
++				non-removable;
++				vmmc-supply = <&reg_vddio_sd0>;
++				status = "okay";
++			};
++		};
++	};
++
++	regulators {
++		compatible = "simple-bus";
++
++		reg_3p3v: 3p3v {
++			compatible = "regulator-fixed";
++			regulator-name = "3P3V";
++			regulator-min-microvolt = <3300000>;
++			regulator-max-microvolt = <3300000>;
++			regulator-always-on;
++		};
++
++		reg_vddio_sd0: vddio-sd0 {
++			compatible = "regulator-fixed";
++			regulator-name = "vddio-sd0";
++			regulator-min-microvolt = <3300000>;
++			regulator-max-microvolt = <3300000>;
++		};
++	};
++};
+-- 
+1.7.10.4
+

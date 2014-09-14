@@ -1,0 +1,183 @@
+From c7fef90814dd9ddbaab20464feef5572f94f20f9 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:41:59 +0200
+Subject: [PATCH] tqma28x: Rely on 2.6.35 qualified setup
+
+Reset hardware settings to kernel 2.6.35 values
+to have a base already qualified for production.
+
+Pinmux settings are substituted in baseboard devicetrees
+to 8 mA to increase signal quality.
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-mba28.dts     |   28 +++++++++++++++++++++++----
+ arch/arm/boot/dts/imx28-mba28l-aa.dts |   10 +++++++---
+ arch/arm/boot/dts/imx28-mba28l-ab.dts |   34 ++++++++++++++++++++++++++++++---
+ 3 files changed, 62 insertions(+), 10 deletions(-)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index cc98385..e2f94eb 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -43,7 +43,7 @@
+ 						0x3083 /* MX28_PAD_AUART2_RX__GPIO_3_8 */
+ 						0x3093 /* MX28_PAD_AUART2_TX__GPIO_3_9 */
+ 					>;
+-					fsl,drive-strength = <0>;
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
+@@ -56,7 +56,11 @@
+ 					>;
+ 					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+-					fsl,pull-up = <1>;
++					fsl,pull-up = <0>;
++				};
++
++				lcdif_24bit_pins_a: lcdif-24bit@0 {
++					fsl,drive-strength = <1>;
+ 				};
+ 
+ 				lcdif_pins_mba28: lcdif-evk@0 {
+@@ -67,7 +71,7 @@
+ 						0x11e0 /* MX28_PAD_LCD_DOTCLK__LCD_DOTCLK */
+ 						0x11f0 /* MX28_PAD_LCD_ENABLE__LCD_ENABLE */
+ 					>;
+-					fsl,drive-strength = <0>;
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
+@@ -99,9 +103,25 @@
+ 					fsl,pinmux-ids = <
+ 						0x0191 /* MX28_PAD_GPMI_WRN__SSP1_SCK */
+ 					>;
+-					fsl,drive-strength = <2>;
++					fsl,drive-strength = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
++
++				pwm2_pins_a: pwm2@0 {
++					fsl,drive-strength = <1>;
++				};
++
++				duart_pins_a: duart@0 {
++					fsl,drive-strength = <1>;
++				};
++
++				auart0_pins_a: auart0@0 {
++					fsl,drive-strength = <1>;
++				};
++
++				auart3_pins_a: auart3@0 {
++					fsl,drive-strength = <1>;
++				};
+ 			};
+ 
+ 			lcdif@80030000 {
+diff --git a/arch/arm/boot/dts/imx28-mba28l-aa.dts b/arch/arm/boot/dts/imx28-mba28l-aa.dts
+index 261cdc6..8c18e0a 100644
+--- a/arch/arm/boot/dts/imx28-mba28l-aa.dts
++++ b/arch/arm/boot/dts/imx28-mba28l-aa.dts
+@@ -26,7 +26,7 @@
+ 						0x40d3 /* MX28_PAD_ENET0_RX_CLK__GPIO_4_13 */
+ 						0x4053 /* MX28_PAD_ENET0_TX_CLK__GPIO_4_5 */
+ 					>;
+-					fsl,drive-strength = <0>;
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
+@@ -37,7 +37,7 @@
+ 						0x30c0 /* MX28_PAD_AUART3_RX__AUART3_RX */
+ 						0x30d0 /* MX28_PAD_AUART3_TX__AUART3_TX */
+ 					>;
+-					fsl,drive-strength = <0>;
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
+@@ -50,10 +50,14 @@
+ 						0x21a1 /* MX28_PAD_SSP3_MISO__AUART4_RTS */
+ 						0x21b1 /* MX28_PAD_SSP3_SS0__AUART4_CTS */
+ 					>;
+-					fsl,drive-strength = <0>;
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
++
++				i2c1_pins_a: i2c1@0 {
++					fsl,pull-up = <0>;
++				};
+ 			};
+ 
+ 			can0: can@80032000 {
+diff --git a/arch/arm/boot/dts/imx28-mba28l-ab.dts b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+index 59d6f61e..62d1359 100644
+--- a/arch/arm/boot/dts/imx28-mba28l-ab.dts
++++ b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+@@ -42,7 +42,7 @@
+ 						0x0143 /* MX28_PAD_GPMI_RDY0__GPIO_0_20 */
+ 						0x2043 /* MX28_PAD_SSP0_DATA4__GPIO_2_4 */
+ 					>;
+-					fsl,drive-strength = <0>;
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
+@@ -54,7 +54,7 @@
+ 						0x3010 /* MX28_PAD_AUART0_TX__AUART0_TX */
+ 						0x3030 /* MX28_PAD_AUART0_RTS__AUART0_RTS */
+ 					>;
+-					fsl,drive-strength = <0>;
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
+@@ -68,10 +68,38 @@
+ 						0x11b1 /* MX28_PAD_LCD_CS__LCD_ENABLE */
+ 						0x31e0 /* MX28_PAD_LCD_RESET__LCD_RESET - must be gpio? */
+ 					>;
+-					fsl,drive-strength = <0>;
++					fsl,drive-strength = <1>;
+ 					fsl,voltage = <1>;
+ 					fsl,pull-up = <0>;
+ 				};
++
++				lcdif_24bit_pins_a: lcdif-24bit@0 {
++					fsl,drive-strength = <1>;
++				};
++
++				mmc0_sck_cfg: mmc0-sck-cfg {
++					fsl,drive-strength = <1>;
++				};
++
++				i2c0_pins_a: i2c0@0 {
++					fsl,pull-up = <0>;
++				};
++
++				pwm4_pins_a: pwm4@0 {
++					fsl,drive-strength = <1>;
++				};
++
++				duart_pins_a: duart@0 {
++					fsl,drive-strength = <1>;
++				};
++
++				auart0_pins_a: auart0@0 {
++					fsl,drive-strength = <1>;
++				};
++
++				auart1_2pins_a: auart1-2pins@0 {
++					fsl,drive-strength = <1>;
++				};
+ 			};
+ 
+ 			lcdif@80030000 {
+-- 
+1.7.10.4
+

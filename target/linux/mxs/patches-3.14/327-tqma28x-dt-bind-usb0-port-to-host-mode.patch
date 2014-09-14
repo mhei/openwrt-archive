@@ -1,0 +1,38 @@
+From 17141b009a06b991898ac32201757704d765fae6 Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:42:12 +0200
+Subject: [PATCH] tqma28x: dt: bind usb0 port to host mode
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-mba28.dts     |    1 +
+ arch/arm/boot/dts/imx28-mba28l-ab.dts |    1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index 2f66c95..758b9589 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -230,6 +230,7 @@
+ 			vbus-supply = <&reg_usb0_vbus>;
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&usbphy0_pins_a>;
++			dr_mode = "host";
+ 			status = "okay";
+ 		};
+ 
+diff --git a/arch/arm/boot/dts/imx28-mba28l-ab.dts b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+index 896a185..bd7173a 100644
+--- a/arch/arm/boot/dts/imx28-mba28l-ab.dts
++++ b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+@@ -202,6 +202,7 @@
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&usbphy0_pins_a
+ 					0x3121>; /* MX28_PAD_PWM2__USB0_ID */
++			dr_mode = "host";
+ 			status = "okay";
+ 		};
+ 
+-- 
+1.7.10.4
+

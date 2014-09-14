@@ -1,0 +1,47 @@
+From f358cd4f46bc217e54964cb4c391dc8510d2be4c Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:42:16 +0200
+Subject: [PATCH] tqma28x: dt: add lradc and touchscreen
+
+the mxs-lradc staging driver provides access to
+lradc channels and touchscreen features.
+---
+ arch/arm/boot/dts/imx28-mba28.dts     |    5 +++++
+ arch/arm/boot/dts/imx28-mba28l-ab.dts |    5 +++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index 0088e69..31c15fa 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -168,6 +168,11 @@
+ 		};
+ 
+ 		apbx@80040000 {
++			lradc@80050000 {
++				fsl,lradc-touchscreen-wires = <4>;
++				status = "okay";
++			};
++
+ 			saif0: saif@80042000 {
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&saif0_pins_a>;
+diff --git a/arch/arm/boot/dts/imx28-mba28l-ab.dts b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+index a6fecc1..93ee29d 100644
+--- a/arch/arm/boot/dts/imx28-mba28l-ab.dts
++++ b/arch/arm/boot/dts/imx28-mba28l-ab.dts
+@@ -139,6 +139,11 @@
+ 		};
+ 
+ 		apbx@80040000 {
++			lradc@80050000 {
++				fsl,lradc-touchscreen-wires = <4>;
++				status = "okay";
++			};
++
+ 			saif0: saif@80042000 {
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&saif0_pins_a>;
+-- 
+1.7.10.4
+

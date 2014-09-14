@@ -1,0 +1,30 @@
+From 78727c68c020146e90412f68c364c0e3aeb7c59a Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+Date: Wed, 28 May 2014 14:41:52 +0200
+Subject: [PATCH] TQMa28: dt: Add eeprom to device tree
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tqs.de>
+---
+ arch/arm/boot/dts/imx28-tqma28.dts |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx28-tqma28.dts b/arch/arm/boot/dts/imx28-tqma28.dts
+index 157fc38..8bbf1aa 100644
+--- a/arch/arm/boot/dts/imx28-tqma28.dts
++++ b/arch/arm/boot/dts/imx28-tqma28.dts
+@@ -190,6 +190,12 @@
+ 					compatible = "national,lm73";
+ 					reg = <0x49>;
+ 				};
++
++				24c64@50 {
++					compatible = "at,24c64";
++					reg = <0x50>;
++					pagesize = <32>;
++				};
+ 			};
+ 
+ 			pwm: pwm@80064000 {
+-- 
+1.7.10.4
+

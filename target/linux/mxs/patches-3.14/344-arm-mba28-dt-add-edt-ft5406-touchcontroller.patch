@@ -1,0 +1,53 @@
+From c43273bcc78382845e2c05cb69948667c461d60c Mon Sep 17 00:00:00 2001
+From: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+Date: Wed, 28 May 2014 14:42:22 +0200
+Subject: [PATCH] arm: mba28: dt: add edt ft5406 touchcontroller
+
+Signed-off-by: Michael Krummsdorf <michael.krummsdorf@tq-group.com>
+---
+ arch/arm/boot/dts/imx28-mba28.dts |   22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index 3ce90e2..7b63b89 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -47,6 +47,17 @@
+ 					fsl,pull-up = <MXS_PULL_DISABLE>;
+ 				};
+ 
++				edt_ft5x06_pins: edt-ft5x06-pins {
++					fsl,pinmux-ids = <
++						MX28_PAD_GPMI_D04__GPIO_0_4 /* IRQ */
++						MX28_PAD_GPMI_D06__GPIO_0_6 /* RESET */
++						MX28_PAD_GPMI_D07__GPIO_0_7 /* WAKE */
++					>;
++					fsl,drive-strength = <MXS_DRIVE_4mA>;
++					fsl,voltage = <MXS_VOLTAGE_HIGH>;
++					fsl,pull-up = <MXS_PULL_DISABLE>;
++				};
++
+ 				i2c1_pins_b: i2c1@1 {
+ 					reg = <1>;
+ 					fsl,pinmux-ids = <
+@@ -212,6 +223,17 @@
+ 					gpio-controller;
+ 				};
+ 
++				polytouch: edt-ft5x04@38 {
++					compatible = "edt,edt-ft5406";
++					reg = <0x38>;
++					pinctrl-names = "default";
++					pinctrl-0 = <&edt_ft5x06_pins>;
++					interrupt-parent = <&gpio0>;
++					interrupts = <4>;
++					reset-gpios = <&gpio0 6 1>;
++					wake-gpios = <&gpio0 7 0>;
++				};
++
+ 				lm73@4a {
+ 					compatible = "national,lm73";
+ 					reg = <0x4a>;
+-- 
+1.7.10.4
+
