@@ -1,0 +1,87 @@
+From 95c79a7623b40298f94e6f48d091cc1e28008f53 Mon Sep 17 00:00:00 2001
+From: Markus Niebel <Markus.Niebel@tqs.de>
+Date: Wed, 28 May 2014 14:42:11 +0200
+Subject: [PATCH] MMC: workaround for mmc initalisation order
+
+Patch based on idea from http://permalink.gmane.org/gmane.linux.kernel.mmc/15756:
+add an option to force mmcblk device naming to follow the numbering schemoe of the
+card controller instance to avoid changing names for the device with the rootfs
+partition
+
+Signed-off-by: Markus Niebel <Markus.Niebel@tqs.de>
+---
+ drivers/mmc/card/Kconfig |   27 +++++++++++++++++++++++++++
+ drivers/mmc/card/block.c |    2 +-
+ include/linux/mmc/host.h |    7 +++++++
+ 3 files changed, 35 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/mmc/card/Kconfig b/drivers/mmc/card/Kconfig
+index 5562308..d8e9ba1 100644
+--- a/drivers/mmc/card/Kconfig
++++ b/drivers/mmc/card/Kconfig
+@@ -50,6 +50,33 @@ config MMC_BLOCK_BOUNCE
+ 
+ 	  If unsure, say Y here.
+ 
++config MMC_SLOTINDEX
++	bool "Use host index for enumerating mmxblkN"
++	depends on MMC_BLOCK
++	default n
++	help
++	  On embedded devices, often there is a combination of
++	  removable mmc devices (e.g. MMC/SD cards) and hard
++	  wired ones (e.g. eMMC). Depending on the hardware
++	  configuration, the 'mmcblkN' node might change if
++	  the removable device is available or not at boot time.
++
++	  E.g. if the removable device is attached at boot time,
++	  it might become mmxblk0. And the hard wired one mmcblk1.
++	  But if the removable device isn't there at boot time,
++	  the hard wired one will become mmcblk0. This makes it
++	  somehow difficult to hard code the root device to the
++	  non-removable device and boot fast.
++
++	  Enabling this option will simply associating 'N' of
++	  'mmcblkN' with the slot index instead of the dynamic
++	  name index. The slot index is always the same, ensuring
++	  that the non-removable mmc device is associated always
++	  with the same mmcblkN. Independent of the availability of
++	  the removable one.
++
++	  If unsure, say N here.
++
+ config SDIO_UART
+ 	tristate "SDIO UART/GPS class support"
+ 	depends on TTY
+diff --git a/drivers/mmc/card/block.c b/drivers/mmc/card/block.c
+index 7b5424f..c5c7733 100644
+--- a/drivers/mmc/card/block.c
++++ b/drivers/mmc/card/block.c
+@@ -2099,7 +2099,7 @@ static struct mmc_blk_data *mmc_blk_alloc_req(struct mmc_card *card,
+ 	 */
+ 
+ 	snprintf(md->disk->disk_name, sizeof(md->disk->disk_name),
+-		 "mmcblk%d%s", md->name_idx, subname ? subname : "");
++		 "mmcblk%d%s", NAMEIDX, subname ? subname : "");
+ 
+ 	if (mmc_card_mmc(card))
+ 		blk_queue_logical_block_size(md->queue.queue,
+diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
+index 99f5709..f92f607 100644
+--- a/include/linux/mmc/host.h
++++ b/include/linux/mmc/host.h
+@@ -484,4 +484,11 @@ static inline unsigned int mmc_host_clk_rate(struct mmc_host *host)
+ 	return host->ios.clock;
+ }
+ #endif
++
++#ifdef CONFIG_MMC_SLOTINDEX
++#define NAMEIDX (card->host->index)
++#else
++#define NAMEIDX (md->name_idx)
++#endif
++
+ #endif /* LINUX_MMC_HOST_H */
+-- 
+1.7.10.4
+

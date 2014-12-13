@@ -1,0 +1,51 @@
+From 7941520c2815423cc33f42f0114e282942e92ef2 Mon Sep 17 00:00:00 2001
+From: Markus Niebel <Markus.Niebel@tqs.de>
+Date: Wed, 28 May 2014 14:42:15 +0200
+Subject: [PATCH] MMC: mmc-esdhci-imx: add DSR device tree support
+
+Add support for parsing value of DSR register from device tree.
+
+Signed-off-by: Markus Niebel <Markus.Niebel@tqs.de>
+---
+ drivers/mmc/host/sdhci-esdhc-imx.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/mmc/host/sdhci-esdhc-imx.c b/drivers/mmc/host/sdhci-esdhc-imx.c
+index b841bb7..3dcdb01 100644
+--- a/drivers/mmc/host/sdhci-esdhc-imx.c
++++ b/drivers/mmc/host/sdhci-esdhc-imx.c
+@@ -906,6 +906,7 @@ sdhci_esdhc_imx_probe_dt(struct platform_device *pdev,
+ 			 struct esdhc_platform_data *boarddata)
+ {
+ 	struct device_node *np = pdev->dev.of_node;
++	u32 dsr;
+ 
+ 	if (!np)
+ 		return -ENODEV;
+@@ -939,6 +940,13 @@ sdhci_esdhc_imx_probe_dt(struct platform_device *pdev,
+ 	if (of_property_read_u32(np, "fsl,delay-line", &boarddata->delay_line))
+ 		boarddata->delay_line = 0;
+ 
++	boarddata->dsr = 0xffffffff;
++	if (!of_property_read_u32(np, "tq,dsr", &dsr)) {
++		dev_info(&pdev->dev, "parsed dsr %x\n", dsr);
++		if ((dsr & 0xffff) == dsr)
++			boarddata->dsr = dsr;
++	}
++
+ 	return 0;
+ }
+ #else
+@@ -1116,6 +1124,9 @@ static int sdhci_esdhc_imx_probe(struct platform_device *pdev)
+ 		host->quirks2 |= SDHCI_QUIRK2_NO_1_8_V;
+ 	}
+ 
++	if (boarddata->dsr)
++		host->mmc->dsr = boarddata->dsr;
++
+ 	err = sdhci_add_host(host);
+ 	if (err)
+ 		goto disable_clk;
+-- 
+1.7.10.4
+
