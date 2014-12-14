@@ -12,6 +12,9 @@ get_status_led() {
 	olinuxino)
 		status_led="green"
 		;;
+	mba28)
+		status_led="mba28:yellow:user2"
+		;;
 	*)
 		status_led=$(cd /sys/class/leds && ls -1d *:status 2> /dev/null | head -n 1)
 		;;

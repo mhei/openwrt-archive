@@ -19,6 +19,9 @@ mxs_board_detect() {
 	*"i.MX23 Olinuxino Low Cost Board")
 		name="olinuxino"
 		;;
+	*"TQ TQMa28 on MBa28")
+		name="mba28"
+		;;
 	esac
 
 	[ -z "$name" ] && name="unknown"
