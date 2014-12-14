@@ -1,0 +1,44 @@
+From d043559f61e41dbd86fc1e6634b463ee44407cbf Mon Sep 17 00:00:00 2001
+From: Michael Heimpold <mhei@heimpold.de>
+Date: Sat, 13 Dec 2014 23:10:17 +0100
+Subject: [PATCH] ARM: mxs: DT: add gpio-leds to for MBa28
+
+Signed-off-by: Michael Heimpold <mhei@heimpold.de>
+---
+ arch/arm/boot/dts/imx28-mba28.dts |   15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/arch/arm/boot/dts/imx28-mba28.dts b/arch/arm/boot/dts/imx28-mba28.dts
+index 7f17c21..cc8d402 100644
+--- a/arch/arm/boot/dts/imx28-mba28.dts
++++ b/arch/arm/boot/dts/imx28-mba28.dts
+@@ -11,6 +11,7 @@
+ 
+ /dts-v1/;
+ #include "imx28-tqma28.dtsi"
++#include <dt-bindings/gpio/gpio.h>
+ 
+ / {
+ 	model = "TQ TQMa28 on MBa28";
+@@ -348,4 +349,18 @@
+ 		default-brightness-level = <6>;
+ 		power-supply = <&reg_3p3v>;
+ 	};
++
++	leds {
++		compatible = "gpio-leds";
++
++		user_led1 {
++			label = "mba28:red:user1";
++			gpios = <&gpioext1 4 GPIO_ACTIVE_HIGH>;
++		};
++
++		user_led2 {
++			label = "mba28:yellow:user2";
++			gpios = <&gpioext1 5 GPIO_ACTIVE_HIGH>;
++		};
++	};
+ };
+-- 
+1.7.10.4
+
