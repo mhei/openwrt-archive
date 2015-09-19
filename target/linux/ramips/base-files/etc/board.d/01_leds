@@ -204,6 +204,9 @@ rt-n14u)
 	set_wifi_led "$board:blue:air"
 	set_usb_led "$board:blue:usb"
 	;;
+unieq-box)
+	set_wifi_led "rt2800soc-phy0::radio"
+	;;
 vocore)
 	ucidef_set_led_netdev "eth" "ETH" "$board:orange:eth" "eth0"
 	set_wifi_led "$board:green:status"

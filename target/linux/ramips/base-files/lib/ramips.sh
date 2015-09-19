@@ -328,6 +328,9 @@ ramips_board_detect() {
 	*"TEW-692GR")
 		name="tew-692gr"
 		;;
+	*"UNIEQ-Box")
+		name="unieq-box"
+		;;
 	*"UR-326N4G")
 		name="ur-326n4g"
 		;;

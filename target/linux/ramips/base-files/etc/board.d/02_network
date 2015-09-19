@@ -180,6 +180,11 @@ ramips_setup_interfaces()
 	wmr-300)
 		ucidef_set_interface_lan "eth0.1"
 		;;
+	unieq-box)
+		ucidef_set_interface_lan "eth0.1"
+		ucidef_add_switch "switch0" "1" "1"
+		ucidef_add_switch_vlan "switch0" "1" "0 2 4 5 6t"
+		;;
 	mzk-dp150n|\
 	vocore)
 		ucidef_set_interface_lan "eth0.1"
@@ -319,6 +324,13 @@ ramips_setup_macs()
 	tew-692gr)
 		lan_mac=$(cat /sys/class/net/eth0/address)
 		wan_mac=$(macaddr_add "$lan_mac" 4)
+		;;
+	unieq-box)
+		[ ! -f /etc/fw_env.config -a -f /etc/uci-defaults/30_uboot-envtools ] && \
+			sh /etc/uci-defaults/30_uboot-envtools
+		if [ -f /etc/fw_env.config ]; then
+			lan_mac=$(fw_printenv -n ethaddr)
+		fi
 		;;
 	w306r-v20)
 		lan_mac=$(cat /sys/class/net/eth0/address)

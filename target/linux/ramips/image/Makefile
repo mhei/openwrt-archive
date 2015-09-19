@@ -676,6 +676,9 @@ Image/Build/Profile/WR512-3GN=$(call BuildFirmware/DefaultDualSize/$(1),$(1),wr5
 
 Image/Build/Profile/WT1520=$(call BuildFirmware/PorayDualSize/$(1),$(1),wt1520,WT1520)
 
+iequalize_unieqbox_mtd_size=7077888
+Image/Build/Profile/UNIEQ-Box=$(call BuildFirmware/CustomFlash/$(1),$(1),unieq-box,UNIEQ-Box,$(iequalize_unieqbox_mtd_size))
+
 Image/Build/Profile/UR-326N4G=$(call BuildFirmware/Default4M/$(1),$(1),ur-326n4g,UR-326N4G)
 
 Image/Build/Profile/UR-336UN=$(call BuildFirmware/Default8M/$(1),$(1),ur-336un,UR-336UN)
@@ -755,6 +758,7 @@ define Image/Build/Profile/Default
 	$(call Image/Build/Profile/RT-N13U,$(1))
 	$(call Image/Build/Profile/RUT5XX,$(1))
 	$(call Image/Build/Profile/SL-R7205,$(1))
+	$(call Image/Build/Profile/UNIEQ-Box,$(1))
 	$(call Image/Build/Profile/UR-326N4G,$(1))
 	$(call Image/Build/Profile/V22RW-2X2,$(1))
 	$(call Image/Build/Profile/VOCORE,$(1))
